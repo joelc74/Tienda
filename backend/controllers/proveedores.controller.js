@@ -4,7 +4,7 @@ const Tienda = db.tienda;
 const Proveedores = db.proveedores;
 const Op = db.Sequelize.Op;
 
-//Create and Save a new Tienda
+//Create and Save a new Supplier
 exports.create = (req, res) => {
  //Validate request
  if(!req.body.nombre || !req.body.proveedoresId){
@@ -26,14 +26,14 @@ exports.create = (req, res) => {
    .catch(err => res.status(500).send({message: err.message}));
     };
 
- // Get all store
+ // Get all Suppliers
 exports.findAll = (req, res) => {
     Proveedores.findAll({ include: [Proveedores]})
     .then(data => res.send(data))
     .catch(err => res.status(500).send({message: err.message}));
 };
 
-//Get Store by Id
+//Get Suppliers by Id
 
 exports.findOne = (req, res) => {
  const id= req.params.id;
@@ -45,7 +45,7 @@ exports.findOne = (req, res) => {
   .catch(err => res.status(500).send({message: err.message}));
 };
 
-//Update Store
+//Update Suppliers
 exports.update= (req, res) => {
     const id= req.params.id;
     Proveedores.update(req.body, {where:{id:id}})
@@ -56,7 +56,7 @@ exports.update= (req, res) => {
     .catch(err => res.status(500).send({message: err.message}));
 };
 
-//Delete Store
+//Delete Suppliers
 exports.delete = (req, res) => {
     const id = req.params.id;
     Proveedores.destroy({ where: {id:id}})
