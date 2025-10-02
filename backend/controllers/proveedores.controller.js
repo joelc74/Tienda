@@ -1,26 +1,26 @@
 const { where } = require("sequelize");
 const db = require("../models");
 const Tienda = db.tienda;
-const Empleados = db.empleados;
+const Proveedores = db.proveedores;
 const Op = db.Sequelize.Op;
 
 //Create and Save a new Tienda
 exports.create = (req, res) => {
  //Validate request
- if(!req.body.nombre || !req.body.empleadosId){
+ if(!req.body.nombre || !req.body.proveedoresId){
   res.status(400).send({
     message: "Content can not be empty!"
   });
   return;
  }
 
- Empleados.create({
+ Proveedores.create({
     nombre: req.body.nombre,
-    apellido: req.body.apellido,
-    tipo_empleado:req.body.tipo_empleado,
+    cif: req.body.cif,
+    direccion: req.body.direccion,
     email:req.body.email,
     telefono:req.body.telefono,
-    empleadosId: req.body.empleadosId
+    proveedoresId: req.body.proveedoresId
  })
    .then(data => res.send(data))
    .catch(err => res.status(500).send({message: err.message}));
@@ -28,7 +28,7 @@ exports.create = (req, res) => {
 
  // Get all store
 exports.findAll = (req, res) => {
-    Empleados.findAll({ include: [Empleados]})
+    Proveedores.findAll({ include: [Proveedores]})
     .then(data => res.send(data))
     .catch(err => res.status(500).send({message: err.message}));
 };
@@ -37,10 +37,10 @@ exports.findAll = (req, res) => {
 
 exports.findOne = (req, res) => {
  const id= req.params.id;
- Empleados.findByPK(id, {include: [Empleados]})
+ Proveedores.findByPK(id, {include: [Proveedores]})
   .then(data => {
     if(data) res.send(data);
-    else res.status(404).send({message: 'No existe ningun empleado con id=${id}'});
+    else res.status(404).send({message: 'No existe proveedor con id=${id}'});
   })
   .catch(err => res.status(500).send({message: err.message}));
 };
@@ -48,10 +48,10 @@ exports.findOne = (req, res) => {
 //Update Store
 exports.update= (req, res) => {
     const id= req.params.id;
-    Empleados.update(req.body, {where:{id:id}})
+    Proveedores.update(req.body, {where:{id:id}})
     .then(num => {
-        if(num == 1) res.send({message: "Empleado actualizado"});
-        else res.send({message: 'No se puede actualizar el empleado con id= ${id}'});
+        if(num == 1) res.send({message: "Proveedor actualizado"});
+        else res.send({message: 'No se puede actualizar el proveedor con id= ${id}'});
     })
     .catch(err => res.status(500).send({message: err.message}));
 };
@@ -59,10 +59,10 @@ exports.update= (req, res) => {
 //Delete Store
 exports.delete = (req, res) => {
     const id = req.params.id;
-    Empleados.destroy({ where: {id:id}})
+    Proveedores.destroy({ where: {id:id}})
     .then(num => {
-        if(num == 1) res.send({message: "Empleado eliminado"});
-        else res.send({message: 'No se pudo eliminar al empleado con id=${id}'});
+        if(num == 1) res.send({message: "Proveedor eliminado"});
+        else res.send({message: 'No se pudo eliminar el proveedor con id=${id}'});
     })
     .catch(err => res.status(500).send({message: err.message}));
 };

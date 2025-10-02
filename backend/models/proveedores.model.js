@@ -1,14 +1,15 @@
 module.exports = (sequelize, Sequelize) => {
-    return sequelize.define("Empleados", {
-         nombre: {
+    return sequelize.define("Proveedores", {
+        nombre: {
             type: Sequelize.STRING,
             allowNull: false
         },
-        apellido: {
+           cif: {
             type: Sequelize.STRING,
+            unique: true,
             allowNull: false
         },
-        tipo_empleado: {
+        direccion: {
             type: Sequelize.STRING,
             allowNull: false
         },
@@ -22,7 +23,7 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false
         }
     }, {
-        tableName: "empleados",  // ✅ OPCIONES
-        timestamps: false                // ✅ OPCIONES
+        tableName: "proveedores",   // ✅ opciones del modelo
+        timestamps: false       // ✅ opciones del modelo
     });
 };

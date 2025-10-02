@@ -21,5 +21,7 @@ db.sequelize = sequelize;
 
 db.tienda = require("./tienda.model.js")(sequelize, Sequelize);
 db.tienda = require("./empleados.model.js")(sequelize, Sequelize);
+db.tienda = require("./productos.model.js")(sequelize, Sequelize);
+db.tienda = require("./proveedores.model.js")(sequelize, Sequelize);
 
 module.exports = db;
