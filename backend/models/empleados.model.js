@@ -1,10 +1,10 @@
 module.exports = (sequelize, Sequelize) => {
-    return sequelize.define("Tienda", {
-        nombre: {
+    return sequelize.define("Empleados", {
+         nombre: {
             type: Sequelize.STRING,
             allowNull: false
         },
-        direccion: {
+        apellido: {
             type: Sequelize.STRING,
             allowNull: false
         },
@@ -18,7 +18,7 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: false
         }
     }, {
-        tableName: "tiendas",   // ✅ opciones del modelo
-        timestamps: false       // ✅ opciones del modelo
+        tableName: "empleados",  // ✅ OPCIONES
+        timestamps: false                // ✅ OPCIONES
     });
 };

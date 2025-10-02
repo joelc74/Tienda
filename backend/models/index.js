@@ -20,6 +20,6 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.tienda = require("./tienda.model.js")(sequelize, Sequelize);
-db.tienda = require("./telefonos_tienda.model.js")(sequelize, Sequelize);
+db.tienda = require("./empleados.model.js")(sequelize, Sequelize);
 
 module.exports = db;

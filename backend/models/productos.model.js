@@ -1,24 +1,23 @@
 module.exports = (sequelize, Sequelize) => {
-    return sequelize.define("Tienda", {
+    return sequelize.define("Productos", {
         nombre: {
             type: Sequelize.STRING,
             allowNull: false
         },
-        direccion: {
+        descripcion: {
             type: Sequelize.STRING,
             allowNull: false
         },
-        email: {
-            type: Sequelize.STRING,
-            unique: true,
+        precio_venta: {
+            type: Sequelize.Float,
             allowNull: false
         },
-          telefono: {
-            type: Sequelize.STRING,
+        precio_compra: {
+            type: Sequelize.Float,
             allowNull: false
         }
     }, {
-        tableName: "tiendas",   // ✅ opciones del modelo
+        tableName: "productos",   // ✅ opciones del modelo
         timestamps: false       // ✅ opciones del modelo
     });
 };

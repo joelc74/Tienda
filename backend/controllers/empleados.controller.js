@@ -1,24 +1,25 @@
 const { where } = require("sequelize");
 const db = require("../models");
 const Tienda = db.tienda;
+const Empleados = db.empleados;
 const Op = db.Sequelize.Op;
 
 //Create and Save a new Tienda
 exports.create = (req, res) => {
  //Validate request
- if(!req.body.nombre || !req.body.tiendaId){
+ if(!req.body.nombre || !req.body.empleadosId){
   res.status(400).send({
     message: "Content can not be empty!"
   });
   return;
  }
 
- Tienda.create({
+ Empleados.create({
     nombre: req.body.nombre,
-    direccion: req.body.direccion,
+    apellido: req.body.apellido,
     email:req.body.email,
     telefono:req.body.telefono,
-    tiendaId: req.body.tiendaId
+    empleadosId: req.body.empleadosId
  })
    .then(data => res.send(data))
    .catch(err => res.status(500).send({message: err.message}));
@@ -26,7 +27,7 @@ exports.create = (req, res) => {
 
  // Get all store
 exports.findAll = (req, res) => {
-    Tienda.findAll({ include: [Tienda]})
+    Empleados.findAll({ include: [Empleados]})
     .then(data => res.send(data))
     .catch(err => res.status(500).send({message: err.message}));
 };
@@ -35,10 +36,10 @@ exports.findAll = (req, res) => {
 
 exports.findOne = (req, res) => {
  const id= req.params.id;
- Tienda.findByPK(id, {include: [Tienda]})
+ Empleados.findByPK(id, {include: [Empleados]})
   .then(data => {
     if(data) res.send(data);
-    else res.status(404).send({message: 'No existe tienda con id=${id}'});
+    else res.status(404).send({message: 'No existe ningun empleado con id=${id}'});
   })
   .catch(err => res.status(500).send({message: err.message}));
 };
@@ -46,10 +47,10 @@ exports.findOne = (req, res) => {
 //Update Store
 exports.update= (req, res) => {
     const id= req.params.id;
-    Tienda.update(req.body, {where:{id:id}})
+    Empleados.update(req.body, {where:{id:id}})
     .then(num => {
-        if(num == 1) res.send({message: "Tienda actualizada"});
-        else res.send({message: 'No se puede actualizar la tienda con id= ${id}'});
+        if(num == 1) res.send({message: "Empleado actualizado"});
+        else res.send({message: 'No se puede actualizar el empleado con id= ${id}'});
     })
     .catch(err => res.status(500).send({message: err.message}));
 };
@@ -57,15 +58,10 @@ exports.update= (req, res) => {
 //Delete Store
 exports.delete = (req, res) => {
     const id = req.params.id;
-    Tienda.destroy({ where: {id:id}})
+    Empleados.destroy({ where: {id:id}})
     .then(num => {
-        if(num == 1) res.send({message: "Tienda eliminada"});
-        else res.send({message: 'No se pudo eliminar la tienda con id=${id}'});
+        if(num == 1) res.send({message: "Empleado eliminado"});
+        else res.send({message: 'No se pudo eliminar al empleado con id=${id}'});
     })
     .catch(err => res.status(500).send({message: err.message}));
 };
-
-
-
-
-
