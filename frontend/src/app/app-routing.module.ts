@@ -11,6 +11,14 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'my-store',
+    loadChildren: () => import('./my-store/my-store.module').then( m => m.MyStorePageModule)
+  },
+  {
+    path: 'add-store-form',
+    loadChildren: () => import('./add-store-form/add-store-form.module').then( m => m.AddStoreFormPageModule)
+  },
 ];
 
 @NgModule({
