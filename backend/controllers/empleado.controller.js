@@ -1,26 +1,25 @@
 const { where } = require("sequelize");
 const db = require("../models");
-const Tienda = db.tienda;
-const Empleados = db.empleados;
+const Empleado = db.empleado;
 const Op = db.Sequelize.Op;
 
 //Create and Save a new Tienda
 exports.create = (req, res) => {
  //Validate request
- if(!req.body.nombre || !req.body.empleadosId){
+ if(!req.body.nombre || !req.body.apellido || !req.body.tipo_empleado || !req.body.email || !req.body.telefono){
   res.status(400).send({
     message: "Content can not be empty!"
   });
   return;
  }
 
- Empleados.create({
+ Empleado.create({
     nombre: req.body.nombre,
     apellido: req.body.apellido,
     tipo_empleado:req.body.tipo_empleado,
     email:req.body.email,
     telefono:req.body.telefono,
-    empleadosId: req.body.empleadosId
+    
  })
    .then(data => res.send(data))
    .catch(err => res.status(500).send({message: err.message}));
@@ -28,7 +27,7 @@ exports.create = (req, res) => {
 
  // Get all store
 exports.findAll = (req, res) => {
-    Empleados.findAll({ include: [Empleados]})
+    Empleado.findAll({ include: [Empleado]})
     .then(data => res.send(data))
     .catch(err => res.status(500).send({message: err.message}));
 };
@@ -37,7 +36,7 @@ exports.findAll = (req, res) => {
 
 exports.findOne = (req, res) => {
  const id= req.params.id;
- Empleados.findByPK(id, {include: [Empleados]})
+ Empleado.findByPK(id, {include: [Empleado]})
   .then(data => {
     if(data) res.send(data);
     else res.status(404).send({message: 'No existe ningun empleado con id=${id}'});
@@ -48,7 +47,7 @@ exports.findOne = (req, res) => {
 //Update Store
 exports.update= (req, res) => {
     const id= req.params.id;
-    Empleados.update(req.body, {where:{id:id}})
+    Empleado.update(req.body, {where:{id:id}})
     .then(num => {
         if(num == 1) res.send({message: "Empleado actualizado"});
         else res.send({message: 'No se puede actualizar el empleado con id= ${id}'});
@@ -59,7 +58,7 @@ exports.update= (req, res) => {
 //Delete Store
 exports.delete = (req, res) => {
     const id = req.params.id;
-    Empleados.destroy({ where: {id:id}})
+    Empleado.destroy({ where: {id:id}})
     .then(num => {
         if(num == 1) res.send({message: "Empleado eliminado"});
         else res.send({message: 'No se pudo eliminar al empleado con id=${id}'});

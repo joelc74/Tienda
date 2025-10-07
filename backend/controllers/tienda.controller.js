@@ -6,7 +6,7 @@ const Op = db.Sequelize.Op;
 //Create and Save a new Tienda
 exports.create = (req, res) => {
  //Validate request
- if(!req.body.nombre || !req.body.tiendaId){
+ if(!req.body.nombre || !req.body.direccion || !req.body.email || !req.body.telefono){
   res.status(400).send({
     message: "Content can not be empty!"
   });
@@ -18,7 +18,7 @@ exports.create = (req, res) => {
     direccion: req.body.direccion,
     email:req.body.email,
     telefono:req.body.telefono,
-    tiendaId: req.body.tiendaId
+  
  })
    .then(data => res.send(data))
    .catch(err => res.status(500).send({message: err.message}));

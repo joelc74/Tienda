@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    return sequelize.define("Productos", {
+    return sequelize.define("Producto", {
         nombre: {
             type: Sequelize.STRING,
             allowNull: false
@@ -8,12 +8,12 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.STRING,
             allowNull: false
         },
-      precio_venta: {
-      type: Sequelize.DECIMAL(10, 2), // hasta 10 dígitos con 2 decimales
-      allowNull: false
-    },
+        precio_venta: {
+            type: Sequelize.DECIMAL(10, 2), // hasta 10 dígitos con 2 decimales
+            allowNull: false
+        },
         precio_compra: {
-            type: Sequelize.DECIMAL(10,2),
+            type: Sequelize.DECIMAL(10, 2),
             allowNull: false
         }
     }, {
