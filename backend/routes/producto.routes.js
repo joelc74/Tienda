@@ -3,19 +3,19 @@ module.exports = app => {
 
   var router = require("express").Router();
 
-  //Create a new employ
+  //Create a new product
   router.post("/", producto.create);
 
-  //Retrieve all employ
+  //Retrieve all product
   router.get("/", producto.findAll);
 
-  //Retrieve a single employ with id
+  //Retrieve a single product with id
   router.get("/:id", producto.findOne);
 
-  //Update a employ with id
+  //Update a product with id
   router.put("/:id", producto.update);
 
-  //Delete a employ with id
+  //Delete a product with id
   router.delete("/:id", producto.delete);
 
   app.use('/api/producto', router);

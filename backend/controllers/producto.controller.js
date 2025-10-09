@@ -3,7 +3,7 @@ const db = require("../models");
 const Producto = db.producto;
 const Op = db.Sequelize.Op;
 
-//Create and Save a new Tienda
+//Create and Save a new Product
 exports.create = (req, res) => {
  //Validate request
  if(!req.body.nombre || !req.body.descripcion || !req.body.precio_venta || !req.body.precio_compra){
@@ -24,14 +24,14 @@ exports.create = (req, res) => {
    .catch(err => res.status(500).send({message: err.message}));
     };
 
- // Get all store
+ // Get all product
 exports.findAll = (req, res) => {
     Producto.findAll()
     .then(data => res.send(data))
     .catch(err => res.status(500).send({message: err.message}));
 };
 
-//Get Store by Id
+//Get product by Id
 
 exports.findOne = (req, res) => {
  const id= req.params.id;
@@ -43,7 +43,7 @@ exports.findOne = (req, res) => {
   .catch(err => res.status(500).send({message: err.message}));
 };
 
-//Update Store
+//Update Product
 exports.update= (req, res) => {
     const id= req.params.id;
     Producto.update(req.body, {where:{id:id}})

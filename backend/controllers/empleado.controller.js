@@ -3,7 +3,7 @@ const db = require("../models");
 const Empleado = db.empleado;
 const Op = db.Sequelize.Op;
 
-//Create and Save a new Tienda
+//Create and Save a new Employee
 exports.create = (req, res) => {
  //Validate request
  if(!req.body.nombre || !req.body.apellido || !req.body.tipo_empleado || !req.body.email || !req.body.telefono){
@@ -25,14 +25,14 @@ exports.create = (req, res) => {
    .catch(err => res.status(500).send({message: err.message}));
     };
 
- // Get all store
+ // Get all Employees
 exports.findAll = (req, res) => {
     Empleado.findAll()
     .then(data => res.send(data))
     .catch(err => res.status(500).send({message: err.message}));
 };
 
-//Get Store by Id
+//Get Employee by Id
 
 exports.findOne = (req, res) => {
  const id= req.params.id;
@@ -44,7 +44,7 @@ exports.findOne = (req, res) => {
   .catch(err => res.status(500).send({message: err.message}));
 };
 
-//Update Store
+//Update Employee
 exports.update= (req, res) => {
     const id= req.params.id;
     Empleado.update(req.body, {where:{id:id}})
@@ -55,7 +55,7 @@ exports.update= (req, res) => {
     .catch(err => res.status(500).send({message: err.message}));
 };
 
-//Delete Store
+//Delete Employee
 exports.delete = (req, res) => {
     const id = req.params.id;
     Empleado.destroy({ where: {id:id}})
