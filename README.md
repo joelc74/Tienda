@@ -34,3 +34,5 @@ para dispositivos móviles, usando bibliotecas web, marcos y lenguajes familiare
 o Visual Studio Code: Como IDE de desarrollo, dada su versatilidad.
 Elegí dentro del programa usar el (MVC) MODELO, VISTA Y CONTROLADOR
 para el manejo de las clases.
+database, password, root
+
