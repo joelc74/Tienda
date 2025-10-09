@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, Routes, RouterModule } from '@angular/router';
-
+import { Observable } from 'rxjs';
 import { MyStorePage } from './my-store.page';
 
 const routes: Routes = [

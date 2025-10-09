@@ -1,5 +1,10 @@
 module.exports = (sequelize, Sequelize) => {
-    return sequelize.define("Producto", {
+    const Producto = sequelize.define("producto", {
+        id: {
+            type: Sequelize.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
         nombre: {
             type: Sequelize.STRING,
             allowNull: false
@@ -20,4 +25,5 @@ module.exports = (sequelize, Sequelize) => {
         tableName: "productos",   // ✅ opciones del modelo
         timestamps: false       // ✅ opciones del modelo
     });
+    return Producto;
 };

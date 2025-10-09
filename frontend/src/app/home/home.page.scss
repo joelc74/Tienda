@@ -14,6 +14,8 @@
 }
 
 #container p {
+  text-align: center;
+  padding: 16 px;
   font-size: 16px;
   line-height: 22px;
 
@@ -24,4 +26,14 @@
 
 #container a {
   text-decoration: none;
+}
+.color-cabecera-fondo{
+  background-color: #210438;/*Color lila*/
+  background-size: cover;/*Ajusta el tamaño de la imagen*/
+  background-position: center;
+}
+.color-cabecera{
+  color:rgb(62,7,96);/*Cambia el color del texto del titulo*/
+  font-size: 30px;
+  text-align: center;
 }

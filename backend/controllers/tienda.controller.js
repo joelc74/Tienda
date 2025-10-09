@@ -18,7 +18,7 @@ exports.create = (req, res) => {
     direccion: req.body.direccion,
     email:req.body.email,
     telefono:req.body.telefono,
-  
+   
  })
    .then(data => res.send(data))
    .catch(err => res.status(500).send({message: err.message}));
@@ -26,7 +26,7 @@ exports.create = (req, res) => {
 
  // Get all store
 exports.findAll = (req, res) => {
-    Tienda.findAll({ include: [Tienda]})
+    Tienda.findAll()
     .then(data => res.send(data))
     .catch(err => res.status(500).send({message: err.message}));
 };
@@ -35,7 +35,7 @@ exports.findAll = (req, res) => {
 
 exports.findOne = (req, res) => {
  const id= req.params.id;
- Tienda.findByPK(id, {include: [Tienda]})
+ Tienda.findByPK(id)
   .then(data => {
     if(data) res.send(data);
     else res.status(404).send({message: 'No existe tienda con id=${id}'});

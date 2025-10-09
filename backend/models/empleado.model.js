@@ -1,5 +1,10 @@
 module.exports = (sequelize, Sequelize) => {
-    return sequelize.define("Empleado", {
+    const Empleado = sequelize.define("empleado", {
+        id: {
+            type: Sequelize.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
         nombre: {
             type: Sequelize.STRING,
             allowNull: false
@@ -25,4 +30,5 @@ module.exports = (sequelize, Sequelize) => {
         tableName: "empleados",  // ✅ OPCIONES
         timestamps: false                // ✅ OPCIONES
     });
+    return Empleado;
 };

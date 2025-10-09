@@ -28,7 +28,7 @@ exports.create = (req, res) => {
 
  // Get all Suppliers
 exports.findAll = (req, res) => {
-    Proveedor.findAll({ include: [Proveedor]})
+    Proveedor.findAll()
     .then(data => res.send(data))
     .catch(err => res.status(500).send({message: err.message}));
 };
@@ -37,7 +37,7 @@ exports.findAll = (req, res) => {
 
 exports.findOne = (req, res) => {
  const id= req.params.id;
- Proveedor.findByPK(id, {include: [Proveedor]})
+ Proveedor.findByPK(id)
   .then(data => {
     if(data) res.send(data);
     else res.status(404).send({message: 'No existe proveedor con id=${id}'});
