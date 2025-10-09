@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StoreService } from '../services/store-service';
-import { response, Router } from 'express';
+import { response } from 'express';
+import { HttpClient } from '@angular/common/http';
+import { NavController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-store-form',
@@ -9,36 +13,64 @@ import { response, Router } from 'express';
   styleUrls: ['./add-store-form.page.scss'],
   standalone: false
 })
-export class AddStoreFormPage implements OnInit {
+export class AddStoreFormPage {
+  tienda = {
+    nombre: '',
+    direccion: '',
+    email: '',
+    telefono: ''
+  };
 
-  storeForm:FormGroup;
-  router: any;
 
-  constructor(public formBuilder: FormBuilder,
+
+  constructor(
     private storeService: StoreService,
-    private route: Router
- ) {
-  this.storeForm = this.formBuilder.group({
-    brandStore:['',Validators.compose([Validators.required])],
-    modelStore:['',Validators.compose([Validators.required])]
-  })
-  }
+    private router: Router,
+    private http: HttpClient,
+    private alertController: AlertController
+  ) { }
 
   ngOnInit() {
   }
 
-  createStore(){
-    if(this.storeForm.valid){
-      console.log('Formulario válido',this.storeForm.value);
-      this.storeService.create(this.storeForm.value).subscribe(response => {
-        this.router.navigate("/my-store");
+  // Envia el formulario con los datos
+  async onSubmit() {
+    if (!this.tienda.nombre || !this.tienda.direccion || !this.tienda.email || !this.tienda.telefono) {
+      const alert = await this.alertController.create({
+        header: 'Error',
+        message: 'Por favor, completar todos los campos del formulario',
+        buttons: ['OK']
       })
-    }else{
-      console.log("Formulario no válido")
+      await alert.present();
+      return;
     }
-  }
-  getFormControl(field:string){
-    return this.storeForm.get(field);
+    const formData = new FormData();
+    formData.append('nombre', this.tienda.nombre);
+    formData.append('direccion', this.tienda.direccion);
+    formData.append('email', this.tienda.email);
+    formData.append('telefono', this.tienda.telefono);
+
+
+    // Llama al servicio para enviar el formulario
+    this.storeService.addStore(formData).subscribe(
+      async (response) => {
+        const alert = await this.alertController.create({
+          header: 'Exito',
+          message: 'La galería ha sido añadida correctamente.',
+          buttons: ['OK'],
+        });
+        await alert.present();
+        this.router.navigate(['/my-store']);// Redirige ala la lista de la tienda
+      },
+      async (error) => {
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'Hubo un error al agregar la Tienda. Inténtelo de nuevo.',
+          buttons: ['OK'],
+        });
+        await alert.present();
+      }
+    );
   }
 
 }
