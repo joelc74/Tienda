@@ -1,39 +1,49 @@
+
+<ion-header>
+
 <ion-header class="color-cabecera-fondo">
+  <ion-img src="/frontend/src/assets/images/tienda.jpeg" alt="Vision Tienda" class="img1"></ion-img>
   <ion-toolbar>
     <ion-title class="color-cabecera">
-      <strong>TIENDA INFORMATICA</strong>App
+      <strong>TIENDA INFORMÁTICA</strong> App
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-tabs class="color-cabecera-fondo">
-<ion-tab-bar slot="bottom">
-  <ion-tab-button tab="search">
-      <ion-icon name="storefront-outline" routerLink="/my-store"></ion-icon>
-      Tiendas
-    </ion-tab-button>
-
-     <ion-tab-button tab="search">
-      <ion-icon name="employeesfront-outline" routerLink="/my-employee"></ion-icon>
-      Empleados
-    </ion-tab-button>
-
-     <ion-tab-button tab="search">
-      <ion-icon name="supliersfront-outline" routerLink="/my-suplier"></ion-icon>
-      Proveedores
-    </ion-tab-button>
-
-     <ion-tab-button tab="search">
-      <ion-icon name="productsfront-outline" routerLink="/my-product"></ion-icon>
-      Productos
-    </ion-tab-button>
-
-</ion-tab-bar>
-</ion-tabs>
-
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="fondo-pantalla">
 
 
-  <ion-button expand="block" (click)="gotoMyStore()">Show Store</ion-button>
+
+
+
+      <ion-tab-button tab="store" routerLink="../my-store">
+        <ion-icon name="storefront-outline"></ion-icon>
+        <ion-label>Tiendas</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="employee" routerLink="/my-employee">
+        <ion-icon name="people-outline"></ion-icon>
+        <ion-label>Empleados</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="suplier" routerLink="/my-suplier">
+        <ion-icon name="cube-outline"></ion-icon>
+        <ion-label>Proveedores</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="product" routerLink="/my-product">
+        <ion-icon name="pricetag-outline"></ion-icon>
+        <ion-label>Productos</ion-label>
+      </ion-tab-button>
+
+
+
+
+  <ion-button expand="block" (click)="gotoMyStore()" routerLink="/my-store">
+    Mostrar Tiendas
+  </ion-button>
+
 
 </ion-content>
+
+

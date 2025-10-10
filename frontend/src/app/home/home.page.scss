@@ -28,7 +28,7 @@
   text-decoration: none;
 }
 .color-cabecera-fondo{
-  background-color: #210438;/*Color lila*/
+  background-color: gray;/*Color lila*/
   background-size: cover;/*Ajusta el tamaño de la imagen*/
   background-position: center;
 }
@@ -36,4 +36,23 @@
   color:rgb(62,7,96);/*Cambia el color del texto del titulo*/
   font-size: 30px;
   text-align: center;
+  background-color: #dfdada;
 }
+ion-tab-bar {
+  --background: #5f96bd;
+}
+
+ion-tab-button {
+  --color: #0d47a1;
+  --color-selected: #1976d2;
+ font-size: 15px;
+
+}
+.img1{
+
+    background-size: cover;
+}
+.fondo-pantalla{
+  background-color: grey;
+}
+

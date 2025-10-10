@@ -1,5 +1,14 @@
 import { Component } from '@angular/core';
 import {Router } from '@angular/router';
+import { addIcons } from 'ionicons';
+import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle } from '@ionic/angular/standalone';
+import {chevronDownCircle,
+  chevronForwardCircle,
+  chevronUpCircle,
+  colorPalette,
+  document,
+  globe,
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-home',
@@ -9,10 +18,15 @@ import {Router } from '@angular/router';
 })
 export class HomePage {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+
+  addIcons({ chevronDownCircle, chevronForwardCircle, chevronUpCircle, colorPalette, document, globe });
+
+  }
 
   gotoMyStore(){
-    this.router.navigateByUrl("/my-store");
+     console.log('✅ Botón presionado');
+    this.router.navigateByUrl('/my-store');
   }
 
 }

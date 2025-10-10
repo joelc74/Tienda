@@ -1,51 +1,41 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>My Store</ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Mis Tiendas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/add-store-form">
+        <ion-icon name="add-circle-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">my-store</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <!-- Campo de búsqueda -->
+  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterStore()" placeholder="Buscar tienda..."></ion-searchbar>
 
-  <!-- Barra de búsqueda -->
-  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterStore()" placeholder="Buscar Tienda..." showCancelButton="focus"></ion-searchbar>
+  <!-- Lista de tiendas -->
+  <ion-list>
+    <ion-card *ngFor="let tienda of filteredStore">
+      <ion-card-header>
+        <ion-card-title>{{ tienda.nombre }}</ion-card-title>
+        <ion-card-subtitle>{{ tienda.direccion }}</ion-card-subtitle>
+      </ion-card-header>
 
-  <!-- Lista de Tienda -->
-   <ion-card *ngFor="let store of filteredStore">
-    <ion-card-header>
-      <ion-card-title>{{ tienda.nombre }}</ion-card-title>
-    </ion-card-header>
+      <ion-card-content>
+        <p><strong>Email:</strong> {{ tienda.email }}</p>
+        <p><strong>Teléfono:</strong> {{ tienda.telefono }}</p>
 
-     <ion-card-content>
-      <p>{{ tienda.direccion }}</p>
-      <p>{{ tienda.email }}</p>
-      <p>{{ tienda.telefono }}</p>
-     </ion-card-content>
+        <ion-button fill="outline" size="small" color="success" [routerLink]="['/edit-store', tienda.id]">
+          <ion-icon name="create-outline" slot="start"></ion-icon>
+          Editar
+        </ion-button>
 
-      <!-- Botones de Borrar y Editar (Reemplazado ion-card-footer por ion-item) -->
-        <ion-item>
-      <ion-button color="danger" (click)="presentConfirm(tienda.id)">Eliminar</ion-button>
-      <ion-button color="primary" (click)="editStore(tienda.id)">Editar</ion-button>
-    </ion-item>
 
-   </ion-card>
-
+        <ion-button fill="outline" size="small" color="danger" (click)="presentConfirm(tienda.id)">
+          <ion-icon name="trash-outline" slot="start"></ion-icon>
+          Eliminar
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
 </ion-content>
-
-<!-- Botón FAB para añadir nueva tienda (izquierda) -->
-<ion-fab slot="fixed" vertical="bottom" horizontal="start">
-  <ion-fab-button color="secondary" routerLink="/add-store-form">
-    <ion-icon name="add"></ion-icon>
-  </ion-fab-button>
-</ion-fab>
-
-<!-- Botón FAB para ir a Home (derecha) -->
-<ion-fab slot="fixed" vertical="bottom" horizontal="end">
-  <ion-fab-button>
-    <ion-icon name="home-outline" routerLink="/home"></ion-icon>
-  </ion-fab-button>
-</ion-fab>

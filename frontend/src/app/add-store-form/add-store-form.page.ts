@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StoreService } from '../services/store-service';
-import { response } from 'express';
-import { HttpClient } from '@angular/common/http';
-import { NavController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { Router } from '@angular/router';
+import { Tienda } from '../interfaces/tienda.interface';
 
 @Component({
   selector: 'app-add-store-form',
@@ -13,64 +10,110 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-store-form.page.scss'],
   standalone: false
 })
-export class AddStoreFormPage {
-  tienda = {
+export class AddStoreFormPage implements OnInit {
+  tienda: Tienda = {
+    id: 0,
     nombre: '',
     direccion: '',
     email: '',
     telefono: ''
   };
 
-
+  isEditMode = false; // 👈 Saber si estamos editando
 
   constructor(
     private storeService: StoreService,
+    private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient,
     private alertController: AlertController
-  ) { }
+  ) {}
 
   ngOnInit() {
+    // Ver si viene un id por parámetro
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.isEditMode = true;
+      this.loadTienda(parseInt(id));
+    }
   }
 
-  // Envia el formulario con los datos
+  // Cargar tienda si estamos en modo edición
+  loadTienda(id: number) {
+    this.storeService.getStoreById(id).subscribe({
+      next: (data) => {
+        this.tienda = data;
+      },
+      error: async () => {
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'No se pudo cargar la tienda para editar.',
+          buttons: ['OK']
+        });
+        await alert.present();
+      }
+    });
+  }
+
+  // Guardar o actualizar según el modo
   async onSubmit() {
     if (!this.tienda.nombre || !this.tienda.direccion || !this.tienda.email || !this.tienda.telefono) {
       const alert = await this.alertController.create({
         header: 'Error',
-        message: 'Por favor, completar todos los campos del formulario',
+        message: 'Por favor, completa todos los campos.',
         buttons: ['OK']
-      })
+      });
       await alert.present();
       return;
     }
-    const formData = new FormData();
-    formData.append('nombre', this.tienda.nombre);
-    formData.append('direccion', this.tienda.direccion);
-    formData.append('email', this.tienda.email);
-    formData.append('telefono', this.tienda.telefono);
 
+    if (this.isEditMode) {
+      // 🟢 MODO EDITAR
+      this.storeService.editStore(this.tienda.id, this.tienda).subscribe({
+        next: async () => {
+          const alert = await this.alertController.create({
+            header: 'Éxito',
+            message: 'Tienda actualizada correctamente.',
+            buttons: ['OK']
+          });
+          await alert.present();
+          this.router.navigate(['/my-store']);
+        },
+        error: async () => {
+          const alert = await this.alertController.create({
+            header: 'Error',
+            message: 'Error al actualizar la tienda.',
+            buttons: ['OK']
+          });
+          await alert.present();
+        }
+      });
+    } else {
+      // 🟢 MODO CREAR
+      const formData = new FormData();
+      formData.append('nombre', this.tienda.nombre);
+      formData.append('direccion', this.tienda.direccion);
+      formData.append('email', this.tienda.email);
+      formData.append('telefono', this.tienda.telefono);
 
-    // Llama al servicio para enviar el formulario
-    this.storeService.addStore(formData).subscribe(
-      async (response) => {
-        const alert = await this.alertController.create({
-          header: 'Exito',
-          message: 'La galería ha sido añadida correctamente.',
-          buttons: ['OK'],
-        });
-        await alert.present();
-        this.router.navigate(['/my-store']);// Redirige ala la lista de la tienda
-      },
-      async (error) => {
-        const alert = await this.alertController.create({
-          header: 'Error',
-          message: 'Hubo un error al agregar la Tienda. Inténtelo de nuevo.',
-          buttons: ['OK'],
-        });
-        await alert.present();
-      }
-    );
+      this.storeService.addStore(formData).subscribe({
+        next: async () => {
+          const alert = await this.alertController.create({
+            header: 'Éxito',
+            message: 'Tienda añadida correctamente.',
+            buttons: ['OK']
+          });
+          await alert.present();
+          this.router.navigate(['/my-store']);
+        },
+        error: async () => {
+          const alert = await this.alertController.create({
+            header: 'Error',
+            message: 'Error al agregar la tienda.',
+            buttons: ['OK']
+          });
+          await alert.present();
+        }
+      });
+    }
   }
-
 }

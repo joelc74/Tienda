@@ -19,6 +19,10 @@ const routes: Routes = [
     path: 'add-store-form',
     loadChildren: () => import('./add-store-form/add-store-form.module').then( m => m.AddStoreFormPageModule)
   },
+  {
+  path: 'edit-store/:id', // 👈 NUEVA RUTA
+  loadChildren: () => import('./add-store-form/add-store-form.module').then(m => m.AddStoreFormPageModule)
+},
 ];
 
 @NgModule({

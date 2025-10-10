@@ -1,8 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
-    <ion-title style="color:white;">Añadir Tienda</ion-title>
+    <ion-title style="color:white;">
+      {{ isEditMode ? 'Editar Tienda' : 'Añadir Tienda' }}
+    </ion-title>
   </ion-toolbar>
 </ion-header>
+
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
@@ -47,7 +50,7 @@
       <ion-label position="floating">Teléfono</ion-label>
       <ion-input
         type="text"
-        name="telephone"
+        name="telefono"
         [(ngModel)]="tienda.telefono"
         required
       ></ion-input>
