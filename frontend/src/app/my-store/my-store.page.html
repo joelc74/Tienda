@@ -25,12 +25,13 @@
         <p><strong>Email:</strong> {{ tienda.email }}</p>
         <p><strong>Teléfono:</strong> {{ tienda.telefono }}</p>
 
-        <ion-button fill="outline" size="small" color="success" [routerLink]="['/edit-store', tienda.id]">
+          <!-- Edita usando la página de formulario -->
+        <ion-button fill="outline" size="small" color="success" (click)="goToEdit(tienda.id)">
           <ion-icon name="create-outline" slot="start"></ion-icon>
           Editar
         </ion-button>
 
-
+          <!-- Eliminar con confirm -->
         <ion-button fill="outline" size="small" color="danger" (click)="presentConfirm(tienda.id)">
           <ion-icon name="trash-outline" slot="start"></ion-icon>
           Eliminar

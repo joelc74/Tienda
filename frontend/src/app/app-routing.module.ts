@@ -15,14 +15,16 @@ const routes: Routes = [
     path: 'my-store',
     loadChildren: () => import('./my-store/my-store.module').then( m => m.MyStorePageModule)
   },
-  {
+   {
     path: 'add-store-form',
     loadChildren: () => import('./add-store-form/add-store-form.module').then( m => m.AddStoreFormPageModule)
   },
   {
-  path: 'edit-store/:id', // 👈 NUEVA RUTA
-  loadChildren: () => import('./add-store-form/add-store-form.module').then(m => m.AddStoreFormPageModule)
-},
+    path: 'add-store-form/:id',
+    loadChildren: () => import('./add-store-form/add-store-form.module').then( m => m.AddStoreFormPageModule)
+  },
+
+
 ];
 
 @NgModule({

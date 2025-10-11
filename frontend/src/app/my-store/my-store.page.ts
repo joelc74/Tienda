@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { StoreService } from '../services/store-service';
-import { AlertController } from '@ionic/angular'; // Importamos AlertController
+import { AlertController, ToastController } from '@ionic/angular';
 import { Tienda } from '../interfaces/tienda.interface';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-my-store',
   templateUrl: './my-store.page.html',
@@ -13,86 +15,63 @@ export class MyStorePage implements OnInit {
   filteredStore: Tienda[] = [];
   searchTerm: string = '';
 
-  constructor(private storeService: StoreService,
-    private alertController: AlertController) { }
+  constructor(
+    private storeService: StoreService,
+    private alertController: AlertController,
+    private toastController: ToastController,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.getAllStore();
   }
 
-
-  // Obtener todas las tiendas
   getAllStore() {
-    this.storeService.getStore().subscribe((response) => {
-      this.store = response;
-      this.filteredStore = this.store;
-    },
-      (error) => {
-        console.error("Error al obtener tienda:", error)
-      });
-  }
-
-  // Filtrar las tiendas según el término de búsqueda
-  filterStore() {
-    this.filteredStore = this.searchTerm
-      ? this.store.filter((g: Tienda) =>
-        g.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
-      )
-      : this.store;
-  }
-
-  // Método para editar una Tienda
-  async editStore(id: number) {
-    const store = this.store.find(g => g.id === id);
-    if (!store) return;
-
-    const alert = await this.alertController.create({
-      header: 'Modificar Tienda',
-      inputs: [
-        { name: 'nombre', type: 'text', value: store.nombre, placeholder: 'Nombre de la Tienda' },
-        { name: 'direccion', type: 'text', value: store.direccion, placeholder: 'Dirección' },
-        { name: 'email', type: 'text', value: store.email, placeholder: 'Email' },
-        { name: 'telefono', type: 'text', value: store.telefono, placeholder: 'Teléfono' },
-      ],
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        },
-        {
-          text: 'Guardar',
-          handler: data => {
-            const updatedStore: Tienda = {
-              ...store,  // Usar los datos existentes
-              nombre: data.nombre,
-              direccion: data.direccion,
-              email: data.email,
-              telefono: data.telefono,
-            };
-            this.storeService.editStore(id, updatedStore).subscribe(() => {
-              this.getAllStore(); // Recargar la lista de tiendas después de la edición
-            });
-          }
-        }
-      ]
+    this.storeService.getStore().subscribe({
+      next: (response) => {
+        this.store = response || [];
+        this.filteredStore = [...this.store];
+      },
+      error: (error) => {
+        console.error('Error al obtener tiendas:', error);
+      }
     });
-
-    await alert.present();
   }
 
-  // Método de confirmación de eliminación
+  // Búsqueda: intenta servidor primero, si falla, hace filtro local
+  filterStore() {
+    const term = (this.searchTerm || '').trim();
+    if (!term) {
+      this.filteredStore = [...this.store];
+      return;
+    }
+
+    // Intentamos búsqueda en servidor (si está implementada)
+    this.storeService.searchByName(term).subscribe({
+      next: (res) => {
+        this.filteredStore = res;
+      },
+      error: (err) => {
+        console.warn('Búsqueda en servidor falló, usando filtro local', err);
+        this.filteredStore = this.store.filter(g =>
+          g.nombre?.toLowerCase().includes(term.toLowerCase())
+        );
+      }
+    });
+  }
+
+  // Navegar al formulario en modo edición (ruta: /edit-store/:id)
+  goToEdit(id: number) {
+    this.router.navigate(['/add-store-form', id]);
+  }
+
+  // Confirmar eliminación
   async presentConfirm(id: number) {
     const alert = await this.alertController.create({
       header: 'Confirmar Borrado',
       message: '¿Estás seguro de que deseas borrar esta tienda?',
       buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancelado');
-          }
-        },
+        { text: 'Cancelar', role: 'cancel' },
         {
           text: 'Aceptar',
           handler: () => {
@@ -104,17 +83,26 @@ export class MyStorePage implements OnInit {
     await alert.present();
   }
 
-  // Método para eliminar una Tienda
   deleteStore(id: number) {
-    this.storeService.deleteStore(id).subscribe(
-      (response) => {
-        console.log('Galería eliminada:', response);
-        this.getAllStore(); // Recargar las tiendas después de eliminar
+    this.storeService.deleteStore(id).subscribe({
+      next: async () => {
+        const toast = await this.toastController.create({
+          message: 'Tienda eliminada',
+          duration: 1500,
+          position: 'bottom'
+        });
+        await toast.present();
+        this.getAllStore();
       },
-      (error) => {
-        console.error('Error al eliminar tienda:', error);
+      error: async (err) => {
+        console.error('Error al eliminar:', err);
+        const alert = await this.alertController.create({
+          header: 'Error',
+          message: 'No se pudo eliminar la tienda.',
+          buttons: ['OK']
+        });
+        await alert.present();
       }
-    );
+    });
   }
-
 }

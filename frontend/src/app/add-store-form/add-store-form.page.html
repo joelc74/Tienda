@@ -57,7 +57,7 @@
     </ion-item>
 
     <ion-button expand="full" type="submit" [disabled]="!storeForm.valid">
-      Añadir Tienda
+        {{ isEditMode ? 'Guardar cambios' : 'Añadir Tienda' }}
     </ion-button>
 
   </form>

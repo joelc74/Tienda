@@ -20,14 +20,17 @@ export class StoreService {
   // Buscar Tienda por nombre
 
   searchByName(nombre: string): Observable<Tienda[]> {
-    return this.httpClient.get<Tienda[]>(`${this.endpoint}?name=${nombre}`);
+    return this.httpClient.get<Tienda[]>(`${this.endpoint}?name=${encodeURIComponent(nombre)}`);
   }
 
   // Crear una nueva Tienda
 
-  addStore(formData: FormData): Observable<Tienda> {
-    return this.httpClient.post<Tienda>(this.endpoint, formData);
-  }
+ addStore(tienda: Tienda): Observable<Tienda> {
+  return this.httpClient.post<Tienda>(this.endpoint, tienda, {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  });
+}
+
 
   // Obtener una tienda por ID
   getStoreById(id: number): Observable<Tienda> {
@@ -35,8 +38,10 @@ export class StoreService {
   }
 
   // Actualizar una Tienda por ID
-  editStore(id: number, tienda: Tienda): Observable<any> {
-    return this.httpClient.put(`${this.endpoint}/${id}`, tienda);
+ editStore(id: number, tienda: Tienda): Observable<Tienda> {
+    return this.httpClient.put<Tienda>(`${this.endpoint}/${id}`, tienda, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    });
   }
 
   // Eliminar una tienda por ID
@@ -48,5 +53,6 @@ export class StoreService {
   deleteAllStore(): Observable<any> {
     return this.httpClient.delete(`${this.endpoint}`);
   }
+
 
 }

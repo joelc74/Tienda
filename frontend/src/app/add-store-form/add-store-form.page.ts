@@ -26,7 +26,7 @@ export class AddStoreFormPage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private alertController: AlertController
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Ver si viene un id por parámetro
@@ -39,11 +39,14 @@ export class AddStoreFormPage implements OnInit {
 
   // Cargar tienda si estamos en modo edición
   loadTienda(id: number) {
+    console.log('🔍 Buscando tienda con ID:', id);
     this.storeService.getStoreById(id).subscribe({
       next: (data) => {
+        console.log('✅ Tienda encontrada:', data);
         this.tienda = data;
       },
-      error: async () => {
+      error: async (err) => {
+        console.error('❌ Error al cargar tienda:', err);
         const alert = await this.alertController.create({
           header: 'Error',
           message: 'No se pudo cargar la tienda para editar.',
@@ -95,7 +98,7 @@ export class AddStoreFormPage implements OnInit {
       formData.append('email', this.tienda.email);
       formData.append('telefono', this.tienda.telefono);
 
-      this.storeService.addStore(formData).subscribe({
+      this.storeService.addStore(this.tienda).subscribe({
         next: async () => {
           const alert = await this.alertController.create({
             header: 'Éxito',
