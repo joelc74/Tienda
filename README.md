@@ -1,13 +1,13 @@
 INTRODUCCIÓN:
-Este proyecto nace de la necesidad de desarrollar una aplicación para gestionar una tienda informática desde dentro con la intención 
+Este proyecto nace de la necesidad de desarrollar una aplicación para gestionar una tienda informática desde dentro, con la intención 
 de controlar adecuadamente la gestión de proveedores y a su vez los pedidos a realizar por parte de los empleados a cargo de cada tienda.
 
 ANALISIS:
-Para este ejercicio se ha pensado en guardar el nombre de cada sucursal de tienda, dirección, email y teléfono,
-en cuanto a los empleados nombre, apellidos, tipo_empleado  (Administrador,usuario), email, teléfono,
-a los proveedores nos interesa conocer nombre, cif, dirección, email, teléfono y por ultimo los productos que 
-comercializara cada tienda donde registraremos, nombre, descripción, precio_venta, precio_compra, la motivación
-de este proyecto es meramente didáctica para implementar una aplicación en el ámbito logístico.
+Para este ejercicio se ha pensado en guardar el nombre de cada sucursal de tienda, dirección, email y teléfono.
+En cuanto a los empleados: nombre, apellidos, tipo_empleado  (Administrador,usuario), email, teléfono,
+de los proveedores nos interesa conocer: nombre, cif, dirección, email, teléfono y por ultimo los productos que 
+comercializara cada tienda, donde registraremos: nombre, descripción, precio_venta, precio_compra. La motivación
+de este proyecto es meramente didáctica, se realiza con el fin de implementar una aplicación en el ámbito logístico.
 
 IMPLEMENTACIÓN:
 Para esta tarea he usado las siguientes herramientas:
