@@ -62,8 +62,9 @@ export class MyStorePage implements OnInit {
 
   // Navegar al formulario en modo edición (ruta: /edit-store/:id)
   goToEdit(id: number) {
-    this.router.navigate(['/add-store-form', id]);
+    this.router.navigate(['/edit-store', id]);
   }
+
 
   // Confirmar eliminación
   async presentConfirm(id: number) {

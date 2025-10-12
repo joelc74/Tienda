@@ -1,70 +1,57 @@
 ion-content {
-    --background: #f0f4f8; /* Fondo gris claro */
-  }
-
-  ion-card {
-    margin: 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff; /* Fondo blanco */
-  }
-
-  ion-card-header {
-    background-color: #4caf50; /* Verde para el encabezado */
-    color: #ffffff; /* Texto blanco */
-    border-radius: 10px 10px 0 0; /* Redondear solo las esquinas superiores */
-  }
-
-  ion-card-title {
-    font-weight: bold;
-    font-size: 1.2rem;
-  }
-
-  ion-card-content {
-    color: #333; /* Color del texto */
-  }
-
-  ion-button {
-    margin: 5px;
-    --border-radius: 5px;
-  }
-
-  .fab-button {
-    --background: #3f51b5; /* Azul */
-    --color: #ffffff;
-  }
-
-  ion-button[color="danger"] {
-    --background: #f44336; /* Rojo */
-    --color: #fff; /* Blanco */
-  }
-
-  ion-button[color="primary"] {
-    --background: #2196f3; /* Azul */
-    --color: #fff; /* Blanco */
-  }
-
-  ion-searchbar {
-    --background: #e0e0e0; /* Fondo gris suave */
-    --color: #333; /* Texto más oscuro */
-  }
-ion-card {
-  margin-bottom: 16px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  --background: #f8f9fa;
 }
 
-ion-card-title {
+.store-card {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+  margin: 12px 8px;
+  background: #fff;
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.store-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.store-title {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #1e1e1e;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.store-icon {
+  font-size: 1.4rem;
+  color: var(--ion-color-primary);
 }
 
 ion-card-subtitle {
   color: #666;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-ion-button {
-  margin-right: 8px;
+ion-card-content p {
+  margin: 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #444;
 }
 
+.button-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Mis Tiendas</ion-title>
+    <ion-title class="ion-text-center">Mis Tiendas</ion-title>
     <ion-buttons slot="end">
       <ion-button routerLink="/add-store-form">
         <ion-icon name="add-circle-outline" slot="icon-only"></ion-icon>
@@ -10,33 +10,66 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Campo de búsqueda -->
-  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterStore()" placeholder="Buscar tienda..."></ion-searchbar>
 
-  <!-- Lista de tiendas -->
-  <ion-list>
-    <ion-card *ngFor="let tienda of filteredStore">
-      <ion-card-header>
-        <ion-card-title>{{ tienda.nombre }}</ion-card-title>
-        <ion-card-subtitle>{{ tienda.direccion }}</ion-card-subtitle>
-      </ion-card-header>
+  <!-- 🔍 Barra de búsqueda -->
+  <ion-searchbar
+    [(ngModel)]="searchTerm"
+    (ionInput)="filterStore()"
+    placeholder="Buscar tienda..."
+    animated
+    color="light">
+  </ion-searchbar>
 
-      <ion-card-content>
-        <p><strong>Email:</strong> {{ tienda.email }}</p>
-        <p><strong>Teléfono:</strong> {{ tienda.telefono }}</p>
+  <!-- 📋 Lista de tiendas -->
+  <ion-grid>
+    <ion-row>
+      <ion-col
+        size="12"
+        size-md="6"
+        size-lg="4"
+        *ngFor="let tienda of filteredStore">
 
-          <!-- Edita usando la página de formulario -->
-        <ion-button fill="outline" size="small" color="success" (click)="goToEdit(tienda.id)">
-          <ion-icon name="create-outline" slot="start"></ion-icon>
-          Editar
-        </ion-button>
+        <!-- 💳 Tarjeta de tienda -->
+        <ion-card class="store-card">
 
-          <!-- Eliminar con confirm -->
-        <ion-button fill="outline" size="small" color="danger" (click)="presentConfirm(tienda.id)">
-          <ion-icon name="trash-outline" slot="start"></ion-icon>
-          Eliminar
-        </ion-button>
-      </ion-card-content>
-    </ion-card>
-  </ion-list>
+          <!-- 🖼 Imagen superior -->
+          <ion-img
+            [src]="tienda.imagenUrl || 'assets/img/default-store.jpg'"
+            alt="Imagen de tienda"
+            class="store-image">
+          </ion-img>
+
+          <ion-card-header>
+            <ion-card-title class="store-title">
+              <ion-icon name="storefront-outline" class="store-icon"></ion-icon>
+              {{ tienda.nombre }}
+            </ion-card-title>
+            <ion-card-subtitle>
+              <ion-icon name="location-outline"></ion-icon>
+              {{ tienda.direccion }}
+            </ion-card-subtitle>
+          </ion-card-header>
+
+          <ion-card-content>
+            <p><ion-icon name="mail-outline"></ion-icon> {{ tienda.email }}</p>
+            <p><ion-icon name="call-outline"></ion-icon> {{ tienda.telefono }}</p>
+
+            <div class="button-row">
+              <ion-button fill="solid" size="small" color="success" (click)="goToEdit(tienda.id)">
+                <ion-icon name="create-outline" slot="start"></ion-icon>
+                Editar
+              </ion-button>
+
+              <ion-button fill="solid" size="small" color="danger" (click)="presentConfirm(tienda.id)">
+                <ion-icon name="trash-outline" slot="start"></ion-icon>
+                Eliminar
+              </ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>

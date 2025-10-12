@@ -81,7 +81,8 @@ export class AddStoreFormPage implements OnInit {
           await alert.present();
           this.router.navigate(['/my-store']);
         },
-        error: async () => {
+        error: async (err) => {
+          console.error('❌ Error al actualizar la tienda:', err);
           const alert = await this.alertController.create({
             header: 'Error',
             message: 'Error al actualizar la tienda.',

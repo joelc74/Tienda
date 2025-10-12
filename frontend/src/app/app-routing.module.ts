@@ -23,6 +23,11 @@ const routes: Routes = [
     path: 'add-store-form/:id',
     loadChildren: () => import('./add-store-form/add-store-form.module').then( m => m.AddStoreFormPageModule)
   },
+  {
+  path: 'edit-store/:id',
+  loadChildren: () => import('./add-store-form/add-store-form.module').then(m => m.AddStoreFormPageModule)
+}
+
 
 
 ];
