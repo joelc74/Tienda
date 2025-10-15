@@ -25,11 +25,11 @@ export class StoreService {
 
   // Crear una nueva Tienda
 
- addStore(tienda: Tienda): Observable<Tienda> {
-  return this.httpClient.post<Tienda>(this.endpoint, tienda, {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  });
-}
+  addStore(tienda: Tienda): Observable<Tienda> {
+    return this.httpClient.post<Tienda>(this.endpoint, tienda, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    });
+  }
 
 
   // Obtener una tienda por ID
@@ -38,7 +38,7 @@ export class StoreService {
   }
 
   // Actualizar una Tienda por ID
- editStore(id: number, tienda: Tienda): Observable<Tienda> {
+  editStore(id: number, tienda: Tienda): Observable<Tienda> {
     return this.httpClient.put<Tienda>(`${this.endpoint}/${id}`, tienda, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     });

@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">Productos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/add-product-form">
+        <ion-icon name="add-circle-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- 🔍 Barra de búsqueda -->
+  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterProduct()" placeholder="Buscar producto..." animated
+    color="light">
+  </ion-searchbar>
+
+  <!-- 📋 Lista de productos -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let producto of filteredProduct">
+
+        <!-- 💳 Tarjeta de Producto -->
+        <ion-card class="product-card">
+
+          <!-- 🖼 Imagen superior -->
+          <ion-img [src]="producto.imagenUrl || 'assets/img/default-product.jpg'" alt="Imagen de producto"
+            class="product-image">
+          </ion-img>
+
+          <ion-card-header>
+            <ion-card-title class="product-title">
+              <ion-icon name="desktop-outline" class="product-icon">
+              </ion-icon>
+              {{ producto.nombre }}
+            </ion-card-title>
+            <ion-card-subtitle>
+              <ion-icon name="newspaper-outline"></ion-icon>
+              {{ producto.descripcion }}
+            </ion-card-subtitle>
+          </ion-card-header>
+
+          <ion-card-content>
+            <p><ion-icon name="cash-outline"></ion-icon> {{ producto.precio_venta }}</p>
+            <p><ion-icon name="cash-outline"></ion-icon> {{ producto.precio_compra }}</p>
+
+            <div class="button-row">
+              <ion-button fill="solid" size="small" color="success" (click)="goToEdit(producto.id)">
+                <ion-icon name="create-outline" slot="start"></ion-icon>
+                Editar
+              </ion-button>
+
+              <ion-button fill="solid" size="small" color="danger" (click)="presentConfirm(producto.id)">
+                <ion-icon name="trash-outline" slot="start"></ion-icon>
+                Eliminar
+              </ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

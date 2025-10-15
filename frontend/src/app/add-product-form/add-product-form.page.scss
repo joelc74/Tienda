@@ -1,0 +1,55 @@
+.custom-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.card-image {
+  width: 100%;
+  height: auto;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.card-subtitle {
+  color: #6a0dad;
+}
+
+.card-title {
+  color: #6a0dad;
+}
+
+.card-description {
+  font-size: 0.9em;
+  color: #555;
+}
+
+.custom-card-footer {
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.icon {
+  font-size: 1.8em;
+  color: #6a0dad;
+}
+
+.revalue, .price {
+  font-size: 1.2em;
+  color: #333;
+}
+
+.action-button {
+  margin-top: 10px;
+}
+
+ion-fab-button {
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+ion-fab-button:hover {
+  background-color: #54268f;
+}
