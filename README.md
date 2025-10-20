@@ -35,4 +35,5 @@ o Visual Studio Code: Como IDE de desarrollo, dada su versatilidad.
 Elegí dentro del programa usar el (MVC) MODELO, VISTA Y CONTROLADOR
 para el manejo de las clases.
 database, password, root
+Postman (https://documenter.getpostman.com/view/48544346/2sB3QJPWbD)
 
