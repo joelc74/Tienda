@@ -20,6 +20,9 @@ module.exports = (sequelize, Sequelize) => {
         precio_compra: {
             type: Sequelize.DECIMAL(10, 2),
             allowNull: false
+        },
+        filename:{
+            type: Sequelize.STRING,
         }
     }, {
         tableName: "productos",   // ✅ opciones del modelo

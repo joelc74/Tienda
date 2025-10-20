@@ -1,10 +1,11 @@
 module.exports = app => {
   const empleado = require("../controllers/empleado.controller.js");
+   var upload = require('../multer/upload.js');
 
   var router = require("express").Router();
 
   //Create a new employ
-  router.post("/", empleado.create);
+  router.post("/",upload.single('file'), empleado.create);
 
   //Retrieve all employ
   router.get("/", empleado.findAll);

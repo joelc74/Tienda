@@ -7,52 +7,62 @@ import { Tienda } from '../interfaces/tienda.interface';
   providedIn: 'root'
 })
 export class StoreService {
-  endpoint = 'http://localhost:8080/api/tienda';// Endpoint para Tienda
+  private apiUrl = 'http://localhost:8080/api';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   // Obtener todas las tiendas
 
   getStore(): Observable<Tienda[]> {
-    return this.httpClient.get<Tienda[]>(this.endpoint);
+    return this.http.get<Tienda[]>(`${this.apiUrl}/tienda`);
   }
 
   // Buscar Tienda por nombre
 
+
+
   searchByName(nombre: string): Observable<Tienda[]> {
-    return this.httpClient.get<Tienda[]>(`${this.endpoint}?name=${encodeURIComponent(nombre)}`);
+    return this.http.get<Tienda[]>(`${this.apiUrl}/tienda?name=${encodeURIComponent(nombre)}`);
   }
 
   // Crear una nueva Tienda
 
-  addStore(tienda: Tienda): Observable<Tienda> {
-    return this.httpClient.post<Tienda>(this.endpoint, tienda, {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    });
+   addStore(formData: FormData): Observable<Tienda> {
+    return this.http.post<Tienda>(`${this.apiUrl}/tienda`, formData);
   }
 
 
   // Obtener una tienda por ID
   getStoreById(id: number): Observable<Tienda> {
-    return this.httpClient.get<Tienda>(`${this.endpoint}/${id}`);
+    return this.http.get<Tienda>(`${this.apiUrl}/tienda/${id}`);
   }
 
   // Actualizar una Tienda por ID
-  editStore(id: number, tienda: Tienda): Observable<Tienda> {
-    return this.httpClient.put<Tienda>(`${this.endpoint}/${id}`, tienda, {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    });
+  editStore(id: number, formData: FormData): Observable<Tienda> {
+    return this.http.put<Tienda>(`${this.apiUrl}/tienda/${id}`, formData);
   }
 
   // Eliminar una tienda por ID
-  deleteStore(id: number): Observable<any> {
-    return this.httpClient.delete(`${this.endpoint}/${id}`);
+   deleteStore(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/tienda/${id}`);
   }
 
   // Eliminar todas las tiendas
   deleteAllStore(): Observable<any> {
-    return this.httpClient.delete(`${this.endpoint}`);
+    return this.http.delete(`${this.apiUrl}/tienda`);
   }
 
+    createStore(store: any, image?: Blob): Observable<any> {
+    const formData = new FormData();
+    formData.append('nombre', store.nombre);
+    formData.append('direccion', store.direccion);
+    formData.append('email', store.email);
+    formData.append('telefono', store.telefono);
 
+    if (image) {
+      formData.append('file', image, 'store-image.jpg');
+    }
+
+    return this.http.post(`${this.apiUrl}/tienda`, formData);
+  }
 }

@@ -21,10 +21,13 @@ module.exports = (sequelize, Sequelize) => {
         telefono: {
             type: Sequelize.STRING,
             allowNull: false
+        },
+        filename:{
+            type: Sequelize.STRING,
         }
     }, {
-        tableName: "tiendas",   // ✅ opciones del modelo
-        timestamps: false       // ✅ opciones del modelo
-    });
-    return Tienda;
+    tableName: "tiendas",   // ✅ opciones del modelo
+    timestamps: false       // ✅ opciones del modelo
+});
+return Tienda;
 };

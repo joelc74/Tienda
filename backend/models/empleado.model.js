@@ -25,6 +25,9 @@ module.exports = (sequelize, Sequelize) => {
         telefono: {
             type: Sequelize.STRING,
             allowNull: false
+        },
+        filename:{
+            type: Sequelize.STRING,
         }
     }, {
         tableName: "empleados",  // ✅ OPCIONES

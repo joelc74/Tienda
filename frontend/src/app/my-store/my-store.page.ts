@@ -14,6 +14,8 @@ export class MyStorePage implements OnInit {
   store: Tienda[] = [];
   filteredStore: Tienda[] = [];
   searchTerm: string = '';
+  isLoading = true;
+
 
   constructor(
     private storeService: StoreService,
@@ -26,19 +28,29 @@ export class MyStorePage implements OnInit {
     this.getAllStore();
   }
 
+  // 🔹 Obtener todas las tiendas
   getAllStore() {
+    this.isLoading = true;
     this.storeService.getStore().subscribe({
       next: (response) => {
         this.store = response || [];
         this.filteredStore = [...this.store];
+        this.isLoading = false;
       },
       error: (error) => {
         console.error('Error al obtener tiendas:', error);
+        this.isLoading = false;
       }
     });
   }
 
-  // Búsqueda: intenta servidor primero, si falla, hace filtro local
+
+  // 🔹 Ir al formulario para añadir tienda
+  addStore() {
+    this.router.navigateByUrl("/add-store-form");
+  }
+
+  // 🔹 Filtrar tiendas por nombre
   filterStore() {
     const term = (this.searchTerm || '').trim();
     if (!term) {
@@ -46,7 +58,6 @@ export class MyStorePage implements OnInit {
       return;
     }
 
-    // Intentamos búsqueda en servidor (si está implementada)
     this.storeService.searchByName(term).subscribe({
       next: (res) => {
         this.filteredStore = res;
@@ -60,13 +71,12 @@ export class MyStorePage implements OnInit {
     });
   }
 
-  // Navegar al formulario en modo edición (ruta: /edit-store/:id)
+  // 🔹 Navegar al formulario en modo edición
   goToEdit(id: number) {
     this.router.navigate(['/edit-store', id]);
   }
 
-
-  // Confirmar eliminación
+  // 🔹 Confirmar eliminación
   async presentConfirm(id: number) {
     const alert = await this.alertController.create({
       header: 'Confirmar Borrado',
@@ -84,11 +94,12 @@ export class MyStorePage implements OnInit {
     await alert.present();
   }
 
+  // 🔹 Eliminar tienda
   deleteStore(id: number) {
     this.storeService.deleteStore(id).subscribe({
       next: async () => {
         const toast = await this.toastController.create({
-          message: 'Tienda eliminada',
+          message: 'Tienda eliminada correctamente.',
           duration: 1500,
           position: 'bottom'
         });
@@ -96,7 +107,7 @@ export class MyStorePage implements OnInit {
         this.getAllStore();
       },
       error: async (err) => {
-        console.error('Error al eliminar:', err);
+        console.error('Error al eliminar tienda:', err);
         const alert = await this.alertController.create({
           header: 'Error',
           message: 'No se pudo eliminar la tienda.',

@@ -1,10 +1,11 @@
 module.exports = app => {
   const tienda = require("../controllers/tienda.controller.js");
+  var upload = require('../multer/upload.js');
 
   var router = require("express").Router();
 
   //Create a new Store
-  router.post("/", tienda.create);
+  router.post("/", upload.single('file'), tienda.create);
 
   //Retrieve all Store
   router.get("/", tienda.findAll);

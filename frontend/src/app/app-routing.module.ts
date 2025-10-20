@@ -17,15 +17,15 @@ const routes: Routes = [
   },
   {
     path: 'add-store-form',
-    loadChildren: () => import('./add-store-form/add-store-form.module').then(m => m.AddStoreFormPageModule)
+    loadComponent: () => import('./add-store-form/add-store-form.page').then(m => m.AddStoreFormPage)
   },
   {
     path: 'add-store-form/:id',
-    loadChildren: () => import('./add-store-form/add-store-form.module').then(m => m.AddStoreFormPageModule)
-  },
+    loadComponent: () => import('./add-store-form/add-store-form.page').then(m => m.AddStoreFormPage)
+   },
   {
     path: 'edit-store/:id',
-    loadChildren: () => import('./add-store-form/add-store-form.module').then(m => m.AddStoreFormPageModule)
+    loadComponent: () => import('./add-store-form/add-store-form.page').then(m => m.AddStoreFormPage)
   },
   {
     path: 'my-employee',

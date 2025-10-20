@@ -1,8 +1,12 @@
 const express = require("express");
 const cors = require("cors");
+var path = require('path');
 const db = require("./models");
 
 const app = express();
+//public directory
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
+
 
 var corsOptions = {
     origin: "http://localhost:8100"

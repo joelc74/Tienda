@@ -19,6 +19,7 @@ exports.create = (req, res) => {
     tipo_empleado: req.body.tipo_empleado,
     email: req.body.email,
     telefono: req.body.telefono,
+     filename: req.file ? req.file.filename : ""
 
   })
     .then(data => res.send(data))

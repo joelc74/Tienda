@@ -1,10 +1,11 @@
 module.exports = app => {
   const proveedor = require("../controllers/proveedor.controller.js");
+   var upload = require('../multer/upload.js');
 
   var router = require("express").Router();
 
   //Create a new Supplier
-  router.post("/", proveedor.create);
+  router.post("/", upload.single('file'), proveedor.create);
 
   //Retrieve all Supplier
   router.get("/", proveedor.findAll);

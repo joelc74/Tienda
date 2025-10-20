@@ -18,6 +18,7 @@ exports.create = (req, res) => {
     descripcion: req.body.descripcion,
     precio_venta: req.body.precio_venta,
     precio_compra: req.body.precio_compra,
+     filename: req.file ? req.file.filename : ""
 
   })
     .then(data => res.send(data))

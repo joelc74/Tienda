@@ -3,12 +3,21 @@ import { StoreService } from '../services/store-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Tienda } from '../interfaces/tienda.interface';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { PhotoService } from '../services/photo.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-add-store-form',
+  standalone: true,
+
   templateUrl: './add-store-form.page.html',
   styleUrls: ['./add-store-form.page.scss'],
-  standalone: false
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule],
 })
 export class AddStoreFormPage implements OnInit {
   tienda: Tienda = {
@@ -16,16 +25,21 @@ export class AddStoreFormPage implements OnInit {
     nombre: '',
     direccion: '',
     email: '',
-    telefono: ''
+    telefono: '',
+    filename: ''
+
   };
 
   isEditMode = false; // 👈 Saber si estamos editando
+
+  capturedPhoto: string = "";
 
   constructor(
     private storeService: StoreService,
     private route: ActivatedRoute,
     private router: Router,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private photoService: PhotoService,
   ) { }
 
   ngOnInit() {
@@ -35,6 +49,26 @@ export class AddStoreFormPage implements OnInit {
       this.isEditMode = true;
       this.loadTienda(parseInt(id));
     }
+  }
+  takePhoto() {
+    // DECOMMENT:
+    this.photoService.takePhoto().then(data => {
+      this.capturedPhoto = data.webPath ? data.webPath : '';
+
+    });
+  }
+
+  pickImage() {
+    // DECOMMENT:
+    this.photoService.pickImage().then(data => {
+      this.capturedPhoto = data.webPath ? data.webPath : '';
+
+    });
+  }
+
+  discardImage() {
+    // DECOMMENT:
+    this.capturedPhoto = "";
   }
 
   // Cargar tienda si estamos en modo edición
@@ -69,9 +103,23 @@ export class AddStoreFormPage implements OnInit {
       return;
     }
 
+    // Crear el formData
+    const formData = new FormData();
+    formData.append('nombre', this.tienda.nombre);
+    formData.append('direccion', this.tienda.direccion);
+    formData.append('email', this.tienda.email);
+    formData.append('telefono', this.tienda.telefono);
+
+    // Si hay foto, convertirla en blob
+    if (this.capturedPhoto) {
+      const response = await fetch(this.capturedPhoto);
+      const blob = await response.blob();
+      formData.append('file', blob, `tienda_${Date.now()}.jpg`);
+    }
+
     if (this.isEditMode) {
-      // 🟢 MODO EDITAR
-      this.storeService.editStore(this.tienda.id, this.tienda).subscribe({
+      // Editar tienda existente
+      this.storeService.editStore(this.tienda.id, formData).subscribe({
         next: async () => {
           const alert = await this.alertController.create({
             header: 'Éxito',
@@ -92,14 +140,8 @@ export class AddStoreFormPage implements OnInit {
         }
       });
     } else {
-      // 🟢 MODO CREAR
-      const formData = new FormData();
-      formData.append('nombre', this.tienda.nombre);
-      formData.append('direccion', this.tienda.direccion);
-      formData.append('email', this.tienda.email);
-      formData.append('telefono', this.tienda.telefono);
-
-      this.storeService.addStore(this.tienda).subscribe({
+      // Crear nueva tienda
+      this.storeService.addStore(formData).subscribe({
         next: async () => {
           const alert = await this.alertController.create({
             header: 'Éxito',
@@ -109,7 +151,8 @@ export class AddStoreFormPage implements OnInit {
           await alert.present();
           this.router.navigate(['/my-store']);
         },
-        error: async () => {
+        error: async (err) => {
+          console.error('❌ Error al crear tienda:', err);
           const alert = await this.alertController.create({
             header: 'Error',
             message: 'Error al agregar la tienda.',
@@ -120,4 +163,6 @@ export class AddStoreFormPage implements OnInit {
       });
     }
   }
+
+
 }

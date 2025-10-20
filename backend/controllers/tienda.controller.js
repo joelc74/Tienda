@@ -18,6 +18,7 @@ exports.create = (req, res) => {
     direccion: req.body.direccion,
     email: req.body.email,
     telefono: req.body.telefono,
+    filename: req.file ? req.file.filename : ""
 
   })
     .then(data => res.send(data))

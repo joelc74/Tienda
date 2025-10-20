@@ -26,6 +26,9 @@ module.exports = (sequelize, Sequelize) => {
         telefono: {
             type: Sequelize.STRING,
             allowNull: false
+        },
+        filename:{
+            type: Sequelize.STRING,
         }
     }, {
         tableName: "proveedores",   // ✅ opciones del modelo

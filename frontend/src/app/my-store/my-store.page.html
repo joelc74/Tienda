@@ -2,7 +2,7 @@
   <ion-toolbar color="primary">
     <ion-title class="ion-text-center">Mis Tiendas</ion-title>
     <ion-buttons slot="end">
-      <ion-button routerLink="/add-store-form">
+      <ion-button (click)="addStore()">
         <ion-icon name="add-circle-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -20,21 +20,28 @@
     color="light">
   </ion-searchbar>
 
-  <!-- 📋 Lista de tiendas -->
-  <ion-grid>
-    <ion-row>
-      <ion-col
-        size="12"
-        size-md="6"
-        size-lg="4"
-        *ngFor="let tienda of filteredStore">
+  <!-- 🌀 Spinner de carga -->
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Cargando tiendas...</p>
+  </div>
 
-        <!-- 💳 Tarjeta de tienda -->
+  <!-- ⚠️ Mensaje cuando no hay tiendas -->
+  <div *ngIf="!isLoading && filteredStore.length === 0" class="no-data">
+    <ion-icon name="storefront-outline" class="empty-icon"></ion-icon>
+    <p>No hay tiendas disponibles.</p>
+    <ion-button expand="block" color="primary" (click)="addStore()">Añadir tienda</ion-button>
+  </div>
+
+  <!-- 📋 Lista de tiendas -->
+  <ion-grid *ngIf="!isLoading && filteredStore.length > 0">
+    <ion-row>
+      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let tienda of filteredStore">
         <ion-card class="store-card">
 
           <!-- 🖼 Imagen superior -->
           <ion-img
-            [src]="tienda.imagenUrl || 'assets/img/default-store.jpg'"
+            [src]="tienda.filename ? 'http://localhost:8080/images/' + tienda.filename : 'assets/img/default-store.jpg'"
             alt="Imagen de tienda"
             class="store-image">
           </ion-img>
@@ -67,9 +74,15 @@
             </div>
           </ion-card-content>
         </ion-card>
-
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <!-- 🟢 Botón flotante global -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="addStore()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>
