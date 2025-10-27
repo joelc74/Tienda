@@ -1,15 +1,77 @@
-INTRODUCCIÓN:
-Este proyecto nace de la necesidad de desarrollar una aplicación para gestionar una tienda informática desde dentro, con la intención 
-de controlar adecuadamente la gestión de proveedores y a su vez los pedidos a realizar por parte de los empleados a cargo de cada tienda.
+<h1>Tienda Informática</h1>
 
-ANALISIS:
+<p>INTRODUCCIÓN:
+Este proyecto nace de la necesidad de desarrollar una aplicación para gestionar una tienda informática desde dentro, con la intención 
+de controlar adecuadamente la gestión de proveedores y a su vez los pedidos a realizar por parte de los empleados a cargo de cada tienda.</p>
+<p>ANALISIS:
 Para este ejercicio se ha pensado en guardar el nombre de cada sucursal de tienda, dirección, email y teléfono.
 En cuanto a los empleados: nombre, apellidos, tipo_empleado  (Administrador,usuario), email, teléfono,
 de los proveedores nos interesa conocer: nombre, cif, dirección, email, teléfono y por ultimo los productos que 
 comercializara cada tienda, donde registraremos: nombre, descripción, precio_venta, precio_compra. La motivación
-de este proyecto es meramente didáctica, se realiza con el fin de implementar una aplicación en el ámbito logístico.
+de este proyecto es meramente didáctica, se realiza con el fin de implementar una aplicación en el ámbito logístico.</p>
 
-IMPLEMENTACIÓN:
+<h2>PRE-REQUISITOS</h2>
+<p> - Node.js 20+: 'https://nodejs.org/en/download'
+    - MySQL 8+: 'https://dev.mysql.com/downloads/installer/'
+    - Ionic CLI: 'npm install -g @ionic/cli'
+    - Git: 'https://git-scm.com/downloads'
+...  </p>
+
+<h2> # Instalación:</h2>
+   <p> # Clonar el repositorio
+    'https://github.com/joelc74/Tienda.git'</p>
+
+<h2> # Configurar el backend</h2>
+<p>- 1- Entra en la carpeta /backend,
+   - 2- Instala dependencias y arranca el servidor:
+    'npm install'
+    'npm start'
+
+  El backend se ejecutará en http://localhost:8080 
+  El backend arranca con el archivo index.js 'node index.js'</p>
+
+  <h2>Configurar el frontend</h2>
+  <p> -1- Entra en la carpeta /frontend
+      -2- Instala dependencias:
+        'npm install'
+      -3- Arranca el servidor de desarrollo:
+        'ionic serve'
+  La app se abrirá en http://localhost:8100   </p>
+
+  <p> # Ejecutando pruebas básicas 
+  
+    Comprueba que puedes acceder a los endpoints desde POSTMAN: 
+    ENLACE ENDPOINTS POSTMAN: https://documenter.getpostman.com/view/48544346/2sB3QJPWbD 
+    
+    **GET** http://localhost:8080/api/tienda
+    **POST** http://localhost:8080/api/tienda
+    **PUT** http://localhost:8080/api/tienda/2
+    **DEL** http://localhost:8080/api/tienda/1
+    **GET** http://localhost:8080/api/empleado
+    **POST** http://localhost:8080/api/empleado
+    **PUT** http://localhost:8080/api/empleado/1
+    **DEL** http://localhost:8080/api/empleado/1
+    **GET** http://localhost:8080/api/proveedor
+    **POST** http://localhost:8080/api/proveedor
+    **PUT** http://localhost:8080/api/proveedor/1
+    **DEL** http://localhost:8080/api/proveedor/1
+    **GET** http://localhost:8080/api/producto
+    **POST** http://localhost:8080/api/producto
+    **PUT** http://localhost:8080/api/producto/1
+    **DEL** http://localhost:8080/api/producto/1
+
+    # Colecciones de POSTMAN
+    Colecciones públicas con los endpoints del backend:
+    * Tienda
+    * Empleado
+    * Proveedor
+    * Producto
+    # Todos los endpoints usan la misma API base:
+    http://localhost:8080/api
+    
+    </p>
+
+<p>IMPLEMENTACIÓN:
 Para esta tarea he usado las siguientes herramientas:
 - Para el desarrollo de la aplicación opté por:
 o Node.js: es un entorno de código abierto, multi-plataforma, entorno
@@ -33,7 +95,7 @@ Ionic: Framework de conjunto de herramientas para crear aplicaciones nativas de 
 para dispositivos móviles, usando bibliotecas web, marcos y lenguajes familiares.
 o Visual Studio Code: Como IDE de desarrollo, dada su versatilidad.
 Elegí dentro del programa usar el (MVC) MODELO, VISTA Y CONTROLADOR
-para el manejo de las clases.
-database, password, root
-Postman (https://documenter.getpostman.com/view/48544346/2sB3QJPWbD)
+para el manejo de las clases.</p>
+
+
 
