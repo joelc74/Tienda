@@ -61,30 +61,48 @@ exports.findOne = (req, res) => {
 //Update Store
 exports.update = (req, res) => {
   const id = req.params.id;
-  Tienda.update(req.body, { where: { id: id } })
-    .then(num => {
-      if (num == 1) res.send({ message: "Tienda actualizada" });
-     else res.send({message: `No se puede actualizar la tienda con id=${id}`});
 
+  const updatedData = {
+    nombre: req.body.nombre,
+    direccion: req.body.direccion,
+    email: req.body.email,
+    telefono: req.body.telefono,
+  };
+
+  if (req.file) {
+    updatedData.filename = req.file.filename; // ✅ actualiza imagen si viene nueva
+  }
+
+  Tienda.update(updatedData, { where: { id } })
+    .then(([num]) => {
+      if (num === 1) {
+        res.send({ message: "✅ Tienda actualizada correctamente." });
+      } else {
+        res.status(404).send({
+          message: `⚠️ No se encontró o no se modificó la tienda con id=${id}.`,
+        });
+      }
     })
     .catch(err => {
-      console.error("❌ Error al buscar tienda:", err);
-      res.status(500).send({ 
-        message: err.message || "error al obtener la tienda con id="+id
+      console.error("❌ Error al actualizar la tienda:", err);
+      res.status(500).send({
+        message: err.message || `Error al actualizar la tienda con id=${id}.`,
       });
     });
-    };
 
-  //Delete Store
-  exports.delete = (req, res) => {
-    const id = req.params.id;
-    Tienda.destroy({ where: { id: id } })
-      .then(num => {
-        if (num == 1) res.send({ message: "Tienda eliminada" });
-        else res.send({ message: `No se pudo eliminar la tienda con id=${id}` });
-      })
-      .catch(err => res.status(500).send({ message: err.message }));
-  };
+
+};
+exports.deleteStore = (req, res) => {
+  const id = req.params.id;
+  Tienda.destroy({ where: { id: id } })
+    .then(num => {
+      if (num == 1) res.send({ message: "Tienda eliminada" });
+      else res.send({ message: `No se pudo eliminar la tienda con id=${id}` });
+    })
+    .catch(err => res.status(500).send({ message: err.message }));
+};
+
+
 
 
 

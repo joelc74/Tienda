@@ -14,10 +14,10 @@ module.exports = app => {
   router.get("/:id", tienda.findOne);
 
   //Update a Store with id
-  router.put("/:id", tienda.update);
+  router.put("/:id", upload.single('file'), tienda.update);
 
   //Delete a Store with id
-  router.delete("/:id", tienda.delete);
+  router.delete("/:id", tienda.deleteStore);
 
   app.use('/api/tienda', router);
 

@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
@@ -75,6 +75,15 @@ const routes: Routes = [
     path: 'edit-product/:id',
     loadChildren: () => import('./add-product-form/add-product-form.module').then(m => m.AddProductFormPageModule)
   },
+{
+  path: 'login',
+  loadComponent: () => import('./login/login.page').then(m => m.LoginPage)
+},
+{
+  path: 'register',
+  loadComponent: () => import('./register/register.page').then(m => m.RegisterPage)
+},
+
 
 
 

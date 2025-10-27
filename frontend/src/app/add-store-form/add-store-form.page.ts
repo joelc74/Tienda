@@ -103,23 +103,18 @@ export class AddStoreFormPage implements OnInit {
       return;
     }
 
-    // Crear el formData
-    const formData = new FormData();
-    formData.append('nombre', this.tienda.nombre);
-    formData.append('direccion', this.tienda.direccion);
-    formData.append('email', this.tienda.email);
-    formData.append('telefono', this.tienda.telefono);
-
-    // Si hay foto, convertirla en blob
+    // 📸 Si hay una foto tomada o elegida, la convertimos a File
+    let file: File | undefined;
     if (this.capturedPhoto) {
-      const response = await fetch(this.capturedPhoto);
-      const blob = await response.blob();
-      formData.append('file', blob, `tienda_${Date.now()}.jpg`);
+      file = await this.urlToFile(this.capturedPhoto);
     }
 
+    console.log('📦 Datos a enviar:', this.tienda);
+    console.log('📷 Archivo:', file);
+
     if (this.isEditMode) {
-      // Editar tienda existente
-      this.storeService.editStore(this.tienda.id, formData).subscribe({
+      // ✏️ EDITAR TIENDA
+      this.storeService.editStore(this.tienda.id, this.tienda, file).subscribe({
         next: async () => {
           const alert = await this.alertController.create({
             header: 'Éxito',
@@ -140,8 +135,8 @@ export class AddStoreFormPage implements OnInit {
         }
       });
     } else {
-      // Crear nueva tienda
-      this.storeService.addStore(formData).subscribe({
+       // ➕ CREAR TIENDA
+      this.storeService.createStore(this.tienda, file).subscribe({
         next: async () => {
           const alert = await this.alertController.create({
             header: 'Éxito',
@@ -164,5 +159,12 @@ export class AddStoreFormPage implements OnInit {
     }
   }
 
+
+  private async urlToFile(url: string): Promise<File> {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const filename = `tienda_${Date.now()}.jpg`;
+    return new File([blob], filename, { type: blob.type });
+  }
 
 }

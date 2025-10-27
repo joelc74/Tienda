@@ -23,5 +23,6 @@ db.tienda = require("./tienda.model.js")(sequelize, Sequelize);
 db.empleado = require("./empleado.model.js")(sequelize, Sequelize);
 db.producto = require("./producto.model.js")(sequelize, Sequelize);
 db.proveedor = require("./proveedor.model.js")(sequelize, Sequelize);
+db.user = require ("./user.model.js")(sequelize, Sequelize);
 
 module.exports = db;

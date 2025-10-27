@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Tienda } from '../interfaces/tienda.interface';
 
@@ -7,52 +7,27 @@ import { Tienda } from '../interfaces/tienda.interface';
   providedIn: 'root'
 })
 export class StoreService {
-  private apiUrl = 'http://localhost:8080/api';
+  private apiUrl = 'http://localhost:8080/api/tienda';
 
   constructor(private http: HttpClient) { }
 
-  // Obtener todas las tiendas
-
+  /** 🟢 Obtener todas las tiendas */
   getStore(): Observable<Tienda[]> {
-    return this.http.get<Tienda[]>(`${this.apiUrl}/tienda`);
+    return this.http.get<Tienda[]>(this.apiUrl);
   }
 
-  // Buscar Tienda por nombre
-
-
-
+  /** 🔍 Buscar tienda por nombre */
   searchByName(nombre: string): Observable<Tienda[]> {
-    return this.http.get<Tienda[]>(`${this.apiUrl}/tienda?name=${encodeURIComponent(nombre)}`);
+    return this.http.get<Tienda[]>(`${this.apiUrl}?name=${encodeURIComponent(nombre)}`);
   }
 
-  // Crear una nueva Tienda
-
-   addStore(formData: FormData): Observable<Tienda> {
-    return this.http.post<Tienda>(`${this.apiUrl}/tienda`, formData);
+  /** 🟢 Alias: crear tienda usando FormData directamente */
+  addStore(formData: FormData): Observable<Tienda> {
+    return this.http.post<Tienda>(this.apiUrl, formData);
   }
 
-
-  // Obtener una tienda por ID
-  getStoreById(id: number): Observable<Tienda> {
-    return this.http.get<Tienda>(`${this.apiUrl}/tienda/${id}`);
-  }
-
-  // Actualizar una Tienda por ID
-  editStore(id: number, formData: FormData): Observable<Tienda> {
-    return this.http.put<Tienda>(`${this.apiUrl}/tienda/${id}`, formData);
-  }
-
-  // Eliminar una tienda por ID
-   deleteStore(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/tienda/${id}`);
-  }
-
-  // Eliminar todas las tiendas
-  deleteAllStore(): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/tienda`);
-  }
-
-    createStore(store: any, image?: Blob): Observable<any> {
+  /** ➕ Crear una nueva tienda */
+  createStore(store: any, image?: File): Observable<Tienda> {
     const formData = new FormData();
     formData.append('nombre', store.nombre);
     formData.append('direccion', store.direccion);
@@ -60,9 +35,39 @@ export class StoreService {
     formData.append('telefono', store.telefono);
 
     if (image) {
-      formData.append('file', image, 'store-image.jpg');
+      formData.append('file', image, image.name);
     }
 
-    return this.http.post(`${this.apiUrl}/tienda`, formData);
+    return this.http.post<Tienda>(this.apiUrl, formData);
+  }
+
+  /** 🧾 Obtener tienda por ID */
+  getStoreById(id: number): Observable<Tienda> {
+    return this.http.get<Tienda>(`${this.apiUrl}/${id}`);
+  }
+
+  /** ✏️ Actualizar tienda */
+  editStore(id: number, store: any, image?: File): Observable<Tienda> {
+    const formData = new FormData();
+    formData.append('nombre', store.nombre);
+    formData.append('direccion', store.direccion);
+    formData.append('email', store.email);
+    formData.append('telefono', store.telefono);
+
+    if (image) {
+      formData.append('file', image, image.name);
+    }
+
+    return this.http.put<Tienda>(`${this.apiUrl}/${id}`, formData);
+  }
+
+  /** ❌ Eliminar una tienda */
+  deleteStore(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+
+  /** 🧨 Eliminar todas las tiendas */
+  deleteAllStores(): Observable<any> {
+    return this.http.delete(this.apiUrl);
   }
 }
